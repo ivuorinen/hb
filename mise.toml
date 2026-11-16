@@ -17,17 +17,22 @@ yamllint = "1.38.0"
 description = "Run the tests"
 run = "node --test"
 
-# Biome and yamllint skip what .gitignore lists (mise's local lockfiles).
+# biome.json and .yamllint.yml make both tools skip what .gitignore lists
+# (mise's local lockfiles).
 [tasks.lint]
 description = "Run every linter CI runs"
 run = [
-  "biome ci --vcs-enabled=true --vcs-client-kind=git --vcs-use-ignore-file=true .",
+  "biome ci .",
   "yamllint --strict .",
   "actionlint",
   "zizmor --offline .github",
   "shellcheck -o all hb.sh",
   "shfmt -d hb.sh",
 ]
+
+[tasks.lint-fix]
+description = "Apply Biome's safe fixes and formatting"
+run = "biome check --write ."
 
 # There is no build step: site/index.html builds the bookmark link when it
 # loads, so the preview page always offers the current code to drag.

@@ -39,6 +39,7 @@ run `mise install`, then:
 | `mise run bookmarklet` | Prints the bookmark URL, e.g. `mise run bookmarklet \| pbcopy`  |
 | `mise run test`        | Runs the tests                                                  |
 | `mise run lint`        | Runs Biome, yamllint, actionlint, zizmor, shellcheck and shfmt  |
+| `mise run lint-fix`    | Applies Biome's safe fixes and formatting                       |
 - Edit `site/humble-links.js`. There is no build step: `site/index.html`
   wraps it into the bookmark URL with `site/bookmarklet.mjs` when it loads,
   so the preview always offers the current code to drag.
