@@ -1,0 +1,47 @@
+# Tools and tasks for working on Humble links. CI installs the same tools
+# from this file, so every check runs with the versions pinned here.
+
+[tools]
+node = "26.12.1"
+biome = "2.6.3"
+shellcheck = "0.11.0"
+shfmt = "3.14.1"
+actionlint = "1.7.12"
+zizmor = "1.31.1"
+yamllint = "1.38.0"
+"npm:browser-sync" = "3.0.4"
+
+[tasks.test]
+description = "Run the tests"
+run = "node --test"
+
+# Biome and yamllint skip what .gitignore lists (mise's local lockfiles).
+[tasks.lint]
+description = "Run every linter CI runs"
+run = [
+  "biome ci --vcs-enabled=true --vcs-client-kind=git --vcs-use-ignore-file=true .",
+  "yamllint --strict .",
+  "actionlint",
+  "zizmor --offline .github",
+  "shellcheck -o all hb.sh",
+  "shfmt -d hb.sh",
+]
+
+# There is no build step: site/index.html builds the bookmark link when it
+# loads, so the preview page always offers the current code to drag.
+[tasks.preview]
+description = "Serve site/ at http://localhost:3000, reloading on changes"
+run = "browser-sync start --server site --files site --no-notify"
+
+# For updating an existing bookmark without the page:
+# mise run bookmarklet | pbcopy
+[tasks.bookmarklet]
+description = "Print the bookmark URL built from site/humble-links.js"
+quiet = true
+run = '''
+node --input-type=module --eval '
+import { readFileSync } from "node:fs";
+import { buildBookmarklet } from "./site/bookmarklet.mjs";
+console.log(buildBookmarklet(readFileSync("site/humble-links.js", "utf8")));
+'
+'''
