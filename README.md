@@ -47,6 +47,9 @@ run `mise install`, then:
   so no real library data is in the repo.
 - mise's lockfiles (`mise.lock`, `.mise/locks/`) stay local: git and the
   linters ignore them.
+- In Claude Code, a PostToolUse hook (`.claude/settings.json`,
+  `.claude/hooks/lint-fix.sh`) runs `mise run lint-fix` after every Write or
+  Edit, and shows Claude whatever Biome cannot fix.
 - CI (`.github/workflows/ci.yml`) installs the same tools with mise, runs
   `lint` and `test` on every push and pull request, then publishes `site/`
   to GitHub Pages from `main`. Only `site/` is published.

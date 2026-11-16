@@ -26,8 +26,8 @@ run = [
   "yamllint --strict .",
   "actionlint",
   "zizmor --offline .github",
-  "shellcheck -o all hb.sh",
-  "shfmt -d hb.sh",
+  "shellcheck -o all hb.sh .claude/hooks/lint-fix.sh",
+  "shfmt -d hb.sh .claude/hooks/lint-fix.sh",
 ]
 
 [tasks.lint-fix]
