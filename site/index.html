@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Humble links</title>
+		<style>
+			:root {
+				color-scheme: light dark;
+				font: 16px/1.5 system-ui, sans-serif;
+			}
+			body {
+				max-width: 40rem;
+				margin: 3rem auto;
+				padding: 0 1rem;
+			}
+			.bookmarklet {
+				display: inline-block;
+				padding: 0.5rem 1.25rem;
+				border: 2px dashed currentColor;
+				border-radius: 0.5rem;
+				font-weight: 600;
+				text-decoration: none;
+				cursor: grab;
+			}
+			pre {
+				padding: 0.75rem 1rem;
+				overflow-x: auto;
+				border-radius: 0.5rem;
+				background: color-mix(in srgb, currentColor 8%, transparent);
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Humble links</h1>
+		<p>
+			Saves every download of a Humble Bundle library bundle page as signed
+			URLs, one per line, for curl.
+		</p>
+
+		<h2>Install</h2>
+		<p>Drag this link to your bookmarks bar:</p>
+		<p id="install">Loading the bookmarklet…</p>
+
+		<h2>Use</h2>
+		<ol>
+			<li>
+				Open a bundle page in your Humble library. Load it fresh (reload it if
+				you got there by clicking around the library).
+			</li>
+			<li>
+				Click the bookmark. A window shows how many links it has collected.
+				When it finishes, a <code>.txt</code> file named after the bundle
+				downloads and the window reports what was saved.
+			</li>
+		</ol>
+
+		<h2>Download</h2>
+		<pre><code>./hb.sh ~/Downloads/humble-book-bundle-a-i-by-packt.txt</code></pre>
+		<p>
+			<a href="https://github.com/ivuorinen/hb/blob/main/hb.sh">hb.sh</a>
+			downloads every file into a folder
+			named after the list. The signed URLs expire 24 hours after the click.
+		</p>
+
+		<footer>
+			<p>
+				<a href="https://github.com/ivuorinen/hb">Source on GitHub</a> ·
+				<a href="https://ivuorinen.net">ivuorinen.net</a> ·
+				<a href="https://github.com/ivuorinen">github.com/ivuorinen</a>
+			</p>
+		</footer>
+
+		<script type="module">
+			// The link appears only once it is built, so a half-loaded page has
+			// nothing to drag.
+			import { buildBookmarklet } from "./bookmarklet.mjs";
+
+			const install = document.getElementById("install");
+			const res = await fetch("humble-links.js");
+			if (res.ok) {
+				const link = document.createElement("a");
+				link.className = "bookmarklet";
+				link.textContent = "Humble links";
+				link.href = buildBookmarklet(await res.text());
+				install.replaceChildren(link);
+			} else {
+				install.textContent = `Could not load humble-links.js (HTTP ${res.status}).`;
+			}
+		</script>
+	</body>
+</html>
