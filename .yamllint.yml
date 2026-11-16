@@ -1,0 +1,16 @@
+---
+# yamllint's defaults, aligned with Biome's YAML formatting (which CI
+# enforces): one space before an inline comment, and values without spaces
+# may run past the limit, as Biome leaves them. The limit is 100 so that a
+# SHA-pinned action ref fits with its trailing "# vX.Y.Z" comment.
+extends: default
+
+# mise's local lockfiles are generated and not committed.
+ignore-from-file: .gitignore
+
+rules:
+  comments:
+    min-spaces-from-content: 1
+  line-length:
+    max: 100
+    allow-non-breakable-inline-mappings: true
