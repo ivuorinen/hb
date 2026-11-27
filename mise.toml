@@ -2,7 +2,7 @@
 # from this file, so every check runs with the versions pinned here.
 
 [tools]
-node = "26.12.1"
+node = "26.13.1"
 biome = "2.6.3"
 shellcheck = "0.11.0"
 shfmt = "3.14.1"
