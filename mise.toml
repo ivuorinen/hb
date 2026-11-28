@@ -9,7 +9,7 @@ shfmt = "3.14.1"
 actionlint = "1.7.12"
 zizmor = "1.31.1"
 # mise installs yamllint, a Python tool, with uv when uv is available.
-uv = "0.13.7"
+uv = "0.13.10"
 yamllint = "1.38.0"
 "npm:browser-sync" = "3.0.4"
 
